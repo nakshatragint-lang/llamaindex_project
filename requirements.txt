@@ -1,0 +1,23 @@
+fastapi
+uvicorn[standard]
+gitpython
+python-multipart
+httpx
+groq
+llama-index
+llama-index-core
+llama-index-embeddings-huggingface
+llama-index-vector-stores-postgres
+psycopg2-binary
+robotframework
+sentence-transformers
+sqlalchemy
+pgvector
+python-dotenv
+# Visualization libraries
+numpy
+pandas
+matplotlib
+seaborn
+plotly
+scikit-learn

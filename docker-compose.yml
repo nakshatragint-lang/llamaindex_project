@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  pgvector:
+    image: ankane/pgvector:latest
+    container_name: pgvector-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: llama_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
