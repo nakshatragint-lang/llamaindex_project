@@ -7,8 +7,8 @@ def get_pg_store():
         user="postgres",
         password="postgres",
         database="llama_db",
-        table_name="public_repo_chunks",
+        table_name="public_repo",
         schema_name="public",
-        embed_dim=384,    # Embedding dimension for the model being used
+        embed_dim=1024,    # Embedding dimension for the model being used
         hybrid_search=False
     )

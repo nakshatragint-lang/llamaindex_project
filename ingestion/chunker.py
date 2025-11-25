@@ -72,5 +72,4 @@ def chunk_repo_files(workspace: str):
                 n.metadata = {"source": str(file_path)}
 
             nodes.extend(new_nodes)
-    print(nodes)
     return nodes

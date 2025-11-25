@@ -1,668 +1,764 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.3.2 (Python 3.14.0 on darwin)" generated="2025-11-21T17:49:05.474156" rpa="false" schemaversion="5">
+<robot generator="Robot 7.3.2 (Python 3.14.0 on darwin)" generated="2025-11-25T12:24:40.393575" rpa="false" schemaversion="5">
 <suite id="s1" name="Tests" source="/Users/nakshatra.g.int/Desktop/LlamaIndex/tests">
 <suite id="s1-s1" name="Raw Output" source="/Users/nakshatra.g.int/Desktop/LlamaIndex/tests/raw_output.robot">
-<test id="s1-s1-t1" name="Valid Age Calculation" line="9">
-<kw name="Calculate Age">
+<test id="s1-s1-t1" name="Normal Age Calculation" line="10">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.423599" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.423580" elapsed="0.000048">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.423702" elapsed="0.000012"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.423759" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.423801" elapsed="0.000007"/>
+</kw>
 <kw name="Run Keyword If" owner="BuiltIn">
 <arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.506193" elapsed="0.000163"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.423855" elapsed="0.000007"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.423926" elapsed="0.000010"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.506447" elapsed="0.000086"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.423974" elapsed="0.000006"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.510332" level="INFO">${today} = 2023-08-15</msg>
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.506642" elapsed="0.003732"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.510668" level="INFO">${birth} = 1990-01-10</msg>
-<var>${birth}</var>
+<var>${date}</var>
 <arg>datetime.date(${year}, ${month}, ${day})</arg>
 <arg>datetime</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.510458" elapsed="0.000230"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.510903" level="FAIL">Evaluating expression '1990-01-10 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</msg>
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.510750" elapsed="0.000274">Evaluating expression '1990-01-10 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511112" elapsed="0.000010"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511161" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511201" elapsed="0.000043"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511293" elapsed="0.000009"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.424013" elapsed="0.000007"/>
 </kw>
 <return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511325" elapsed="0.000017"/>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.424040" elapsed="0.000012"/>
 </return>
-<var>${age}</var>
-<arg>1990</arg>
-<arg>1</arg>
-<arg>10</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.505552" elapsed="0.005857">Evaluating expression '1990-01-10 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
+<var>${birth}</var>
+<arg>1990-01-15</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.422638" elapsed="0.001471">No keyword with name 'Split String' found.</status>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[0]</arg>
-<arg>33</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511465" elapsed="0.000009"/>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${expected}</var>
+<arg>{'years': 35, 'months': 4, 'days': 5}</arg>
+<arg>datetime, dateutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.424150" elapsed="0.000008"/>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[1]</arg>
-<arg>7</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511509" elapsed="0.000007"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[2]</arg>
-<arg>5</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.511546" elapsed="0.000006"/>
-</kw>
-<status status="FAIL" start="2025-11-21T17:49:05.505008" elapsed="0.006616">Evaluating expression '1990-01-10 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</test>
-<test id="s1-s1-t2" name="Birth Today" line="15">
 <kw name="Calculate Age">
+<var>${result}</var>
+<arg>${birth}</arg>
+<arg>${FIXED_TODAY}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.424220" elapsed="0.000008"/>
+</kw>
+<kw name="Dictionaries Should Be Equal" owner="Collections">
+<arg>${result}</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given dictionaries are not equal.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.424261" elapsed="0.000007"/>
+</kw>
+<doc>Verify age calculation for a typical birth date.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.422283" elapsed="0.002045">No keyword with name 'Split String' found.</status>
+</test>
+<test id="s1-s1-t2" name="Leap Year Birth On Feb 29 (Non‑Leap Current Year)" line="17">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.426065" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.426053" elapsed="0.000029">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426125" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426166" elapsed="0.000006"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426204" elapsed="0.000007"/>
+</kw>
 <kw name="Run Keyword If" owner="BuiltIn">
 <arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.512121" elapsed="0.000094"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426246" elapsed="0.000006"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426302" elapsed="0.000009"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.512265" elapsed="0.000066"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426347" elapsed="0.000006"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.512510" level="INFO">${today} = 2023-08-15</msg>
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.512374" elapsed="0.000148"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.512667" level="INFO">${birth} = 2023-08-15</msg>
-<var>${birth}</var>
+<var>${date}</var>
 <arg>datetime.date(${year}, ${month}, ${day})</arg>
 <arg>datetime</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.512561" elapsed="0.000116"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.512809" level="FAIL">Evaluating expression '2023-08-15 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</msg>
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.512720" elapsed="0.000147">Evaluating expression '2023-08-15 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.512915" elapsed="0.000008"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.512958" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.512997" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.513034" elapsed="0.000017"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426385" elapsed="0.000006"/>
 </kw>
 <return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.513071" elapsed="0.000011"/>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426407" elapsed="0.000009"/>
 </return>
-<var>${age}</var>
-<arg>2023</arg>
-<arg>8</arg>
-<arg>15</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.511957" elapsed="0.001175">Evaluating expression '2023-08-15 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
+<var>${birth}</var>
+<arg>2000-02-29</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.425447" elapsed="0.001007">No keyword with name 'Split String' found.</status>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[0]</arg>
-<arg>0</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.513179" elapsed="0.000008"/>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${expected}</var>
+<arg>{'years': 25, 'months': 2, 'days': 19}</arg>
+<arg>datetime, dateutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426492" elapsed="0.000008"/>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[1]</arg>
-<arg>0</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.513219" elapsed="0.000006"/>
+<kw name="Calculate Age">
+<var>${result}</var>
+<arg>${birth}</arg>
+<arg>${FIXED_TODAY}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426553" elapsed="0.000008"/>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[2]</arg>
-<arg>0</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.513253" elapsed="0.000006"/>
+<kw name="Dictionaries Should Be Equal" owner="Collections">
+<arg>${result}</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given dictionaries are not equal.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.426593" elapsed="0.000006"/>
 </kw>
-<status status="FAIL" start="2025-11-21T17:49:05.511734" elapsed="0.001831">Evaluating expression '2023-08-15 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
+<doc>Verify age when born on Feb 29 and current year is not a leap year.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.425110" elapsed="0.001539">No keyword with name 'Split String' found.</status>
 </test>
-<test id="s1-s1-t3" name="Future Birth Date" line="21">
+<test id="s1-s1-t3" name="Leap Year Birth On Feb 29 (Leap Current Year)" line="24">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.427509" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.427499" elapsed="0.000025">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427565" elapsed="0.000007"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427602" elapsed="0.000006"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427647" elapsed="0.000006"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${month} &lt; 1 or ${month} &gt; 12</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427686" elapsed="0.000007"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427740" elapsed="0.000008"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427781" elapsed="0.000006"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${date}</var>
+<arg>datetime.date(${year}, ${month}, ${day})</arg>
+<arg>datetime</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427818" elapsed="0.000006"/>
+</kw>
+<return>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427839" elapsed="0.000006"/>
+</return>
+<var>${birth}</var>
+<arg>2004-02-29</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.426880" elapsed="0.000998">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${today}</var>
+<arg>2024-02-29</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427914" elapsed="0.000007"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${expected}</var>
+<arg>{'years': 20, 'months': 0, 'days': 0}</arg>
+<arg>datetime, dateutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.427950" elapsed="0.000006"/>
+</kw>
+<kw name="Calculate Age">
+<var>${result}</var>
+<arg>${birth}</arg>
+<arg>${today}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.428005" elapsed="0.000009"/>
+</kw>
+<kw name="Dictionaries Should Be Equal" owner="Collections">
+<arg>${result}</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given dictionaries are not equal.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.428047" elapsed="0.000007"/>
+</kw>
+<doc>Verify age when both birth year and current year are leap years.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.426718" elapsed="0.001381">No keyword with name 'Split String' found.</status>
+</test>
+<test id="s1-s1-t4" name="Birth Date Is Today" line="32">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.428868" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.428858" elapsed="0.000024">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.428921" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.428959" elapsed="0.000007"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.428994" elapsed="0.000006"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${month} &lt; 1 or ${month} &gt; 12</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429031" elapsed="0.000005"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429081" elapsed="0.000008"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429126" elapsed="0.000006"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${date}</var>
+<arg>datetime.date(${year}, ${month}, ${day})</arg>
+<arg>datetime</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429165" elapsed="0.000006"/>
+</kw>
+<return>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429185" elapsed="0.000006"/>
+</return>
+<var>${birth}</var>
+<arg>2025-05-20</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.428295" elapsed="0.000927">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${expected}</var>
+<arg>{'years': 0, 'months': 0, 'days': 0}</arg>
+<arg>datetime, dateutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429259" elapsed="0.000007"/>
+</kw>
+<kw name="Calculate Age">
+<var>${result}</var>
+<arg>${birth}</arg>
+<arg>${FIXED_TODAY}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429318" elapsed="0.000008"/>
+</kw>
+<kw name="Dictionaries Should Be Equal" owner="Collections">
+<arg>${result}</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given dictionaries are not equal.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.429360" elapsed="0.000006"/>
+</kw>
+<doc>Age should be zero when birth date equals today.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.428161" elapsed="0.001250">No keyword with name 'Split String' found.</status>
+</test>
+<test id="s1-s1-t5" name="Future Birth Date Should Fail" line="39">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.430188" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.430178" elapsed="0.000024">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430241" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430279" elapsed="0.000006"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430314" elapsed="0.000006"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${month} &lt; 1 or ${month} &gt; 12</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430353" elapsed="0.000006"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430404" elapsed="0.000007"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430445" elapsed="0.000007"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${date}</var>
+<arg>datetime.date(${year}, ${month}, ${day})</arg>
+<arg>datetime</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430492" elapsed="0.000006"/>
+</kw>
+<return>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430513" elapsed="0.000007"/>
+</return>
+<var>${birth}</var>
+<arg>2026-01-01</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.429612" elapsed="0.000939">No keyword with name 'Split String' found.</status>
+</kw>
 <kw name="Run Keyword And Expect Error" owner="BuiltIn">
-<kw name="Calculate Age">
-<kw name="Run Keyword If" owner="BuiltIn">
-<arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.514008" elapsed="0.000081"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.514134" elapsed="0.000064"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.514355" level="INFO">${today} = 2023-08-15</msg>
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.514236" elapsed="0.000131"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.514509" level="INFO">${birth} = 2024-01-01</msg>
-<var>${birth}</var>
-<arg>datetime.date(${year}, ${month}, ${day})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.514406" elapsed="0.000113"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.514642" level="FAIL">Evaluating expression '2024-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</msg>
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.514559" elapsed="0.000132">Evaluating expression '2024-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.514736" elapsed="0.000008"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.514778" elapsed="0.000006"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.514815" elapsed="0.000006"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.514850" elapsed="0.000006"/>
-</kw>
-<return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.514872" elapsed="0.000008"/>
-</return>
-<arg>2024</arg>
-<arg>1</arg>
-<arg>1</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.513887" elapsed="0.001033">Evaluating expression '2024-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<msg time="2025-11-21T17:49:05.515058" level="FAIL">Expected error '*Future birth date*' but got 'Evaluating expression '2024-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)'.</msg>
-<arg>*Future birth date*</arg>
+<arg>ValueError: Birth date cannot be in the future</arg>
 <arg>Calculate Age</arg>
-<arg>2024</arg>
-<arg>1</arg>
-<arg>1</arg>
-<arg>${TODAY}</arg>
+<arg>${birth}</arg>
+<arg>${FIXED_TODAY}</arg>
 <doc>Runs the keyword and checks that the expected error occurred.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.513783" elapsed="0.001307">Expected error '*Future birth date*' but got 'Evaluating expression '2024-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)'.</status>
+<status status="NOT RUN" start="2025-11-25T12:24:40.430592" elapsed="0.000007"/>
 </kw>
-<status status="FAIL" start="2025-11-21T17:49:05.513659" elapsed="0.001495">Expected error '*Future birth date*' but got 'Evaluating expression '2024-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)'.</status>
+<doc>Birth dates in the future must raise an error.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.429472" elapsed="0.001173">No keyword with name 'Split String' found.</status>
 </test>
-<test id="s1-s1-t4" name="Leap Year Birth" line="24">
-<kw name="Calculate Age">
-<kw name="Run Keyword If" owner="BuiltIn">
-<arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.515484" elapsed="0.000066"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.515591" elapsed="0.000061"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.515790" level="INFO">${today} = 2023-08-15</msg>
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.515687" elapsed="0.000114"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.515936" level="INFO">${birth} = 2000-02-29</msg>
-<var>${birth}</var>
-<arg>datetime.date(${year}, ${month}, ${day})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.515838" elapsed="0.000108"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.516070" level="FAIL">Evaluating expression '2000-02-29 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</msg>
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.515997" elapsed="0.000115">Evaluating expression '2000-02-29 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516187" elapsed="0.000009"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516229" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516267" elapsed="0.000026"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516329" elapsed="0.000006"/>
-</kw>
-<return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516350" elapsed="0.000008"/>
-</return>
-<var>${age}</var>
-<arg>2000</arg>
-<arg>2</arg>
-<arg>29</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.515370" elapsed="0.001026">Evaluating expression '2000-02-29 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[0]</arg>
-<arg>23</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516441" elapsed="0.000027"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[1]</arg>
-<arg>5</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516523" elapsed="0.000007"/>
-</kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[2]</arg>
-<arg>17</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.516562" elapsed="0.000006"/>
-</kw>
-<status status="FAIL" start="2025-11-21T17:49:05.515226" elapsed="0.001396">Evaluating expression '2000-02-29 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</test>
-<test id="s1-s1-t5" name="Invalid Month" line="30">
+<test id="s1-s1-t6" name="Invalid Month Should Fail" line="44">
 <kw name="Run Keyword And Expect Error" owner="BuiltIn">
-<kw name="Calculate Age">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.431512" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.431501" elapsed="0.000024">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431565" elapsed="0.000007"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431602" elapsed="0.000006"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431635" elapsed="0.000006"/>
+</kw>
 <kw name="Run Keyword If" owner="BuiltIn">
-<kw name="Raise Invalid Month">
-<kw name="Fail" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.517374" level="FAIL">Invalid month</msg>
-<arg>Invalid month</arg>
-<doc>Fails the test with the given message and optionally alters its tags.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.517296" elapsed="0.000115">Invalid month</status>
-</kw>
-<status status="FAIL" start="2025-11-21T17:49:05.517218" elapsed="0.000239">Invalid month</status>
-</kw>
 <arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.517095" elapsed="0.000378">Invalid month</status>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431674" elapsed="0.000006"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431724" elapsed="0.000009"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517516" elapsed="0.000007"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431767" elapsed="0.000007"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517561" elapsed="0.000007"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${birth}</var>
+<var>${date}</var>
 <arg>datetime.date(${year}, ${month}, ${day})</arg>
 <arg>datetime</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517601" elapsed="0.000006"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517640" elapsed="0.000005"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517676" elapsed="0.000006"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517712" elapsed="0.000006"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517743" elapsed="0.000005"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517773" elapsed="0.000007"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431805" elapsed="0.000006"/>
 </kw>
 <return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.517795" elapsed="0.000010"/>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.431825" elapsed="0.000006"/>
 </return>
-<arg>1990</arg>
-<arg>13</arg>
-<arg>1</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.516957" elapsed="0.000884">Invalid month</status>
+<arg>1990-13-01</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.430929" elapsed="0.000934">No keyword with name 'Split String' found.</status>
 </kw>
-<arg>*Invalid month*</arg>
-<arg>Calculate Age</arg>
-<arg>1990</arg>
-<arg>13</arg>
-<arg>1</arg>
-<arg>${TODAY}</arg>
+<msg time="2025-11-25T12:24:40.431989" level="FAIL">Expected error 'ValueError: Invalid month value' but got 'No keyword with name 'Split String' found.'.</msg>
+<arg>ValueError: Invalid month value</arg>
+<arg>Create Date</arg>
+<arg>1990-13-01</arg>
 <doc>Runs the keyword and checks that the expected error occurred.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.516838" elapsed="0.001121"/>
+<status status="FAIL" start="2025-11-25T12:24:40.430838" elapsed="0.001231">Expected error 'ValueError: Invalid month value' but got 'No keyword with name 'Split String' found.'.</status>
 </kw>
-<status status="PASS" start="2025-11-21T17:49:05.516704" elapsed="0.001305"/>
+<doc>Month value outside 1‑12 must raise an error.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.430708" elapsed="0.001415">Expected error 'ValueError: Invalid month value' but got 'No keyword with name 'Split String' found.'.</status>
 </test>
-<test id="s1-s1-t6" name="Invalid Day" line="33">
+<test id="s1-s1-t7" name="Invalid Day Should Fail" line="48">
 <kw name="Run Keyword And Expect Error" owner="BuiltIn">
-<kw name="Calculate Age">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.432996" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.432986" elapsed="0.000025">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433052" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433091" elapsed="0.000005"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433123" elapsed="0.000006"/>
+</kw>
 <kw name="Run Keyword If" owner="BuiltIn">
 <arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.518402" elapsed="0.000099"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433161" elapsed="0.000006"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433215" elapsed="0.000008"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.518553" elapsed="0.000071"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433255" elapsed="0.000006"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.518802" level="INFO">${today} = 2023-08-15</msg>
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.518666" elapsed="0.000148"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.518993" level="FAIL">Evaluating expression 'datetime.date(1990, 2, 30)' failed: ValueError: day 30 must be in range 1..28 for month 2 in year 1990</msg>
-<var>${birth}</var>
+<var>${date}</var>
 <arg>datetime.date(${year}, ${month}, ${day})</arg>
 <arg>datetime</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.518866" elapsed="0.000177">Evaluating expression 'datetime.date(1990, 2, 30)' failed: ValueError: day 30 must be in range 1..28 for month 2 in year 1990</status>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.519092" elapsed="0.000008"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.519135" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.519175" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.519209" elapsed="0.000006"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.519240" elapsed="0.000005"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433291" elapsed="0.000007"/>
 </kw>
 <return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.519262" elapsed="0.000008"/>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.433314" elapsed="0.000006"/>
 </return>
-<arg>1990</arg>
-<arg>2</arg>
-<arg>30</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.518274" elapsed="0.001038">Evaluating expression 'datetime.date(1990, 2, 30)' failed: ValueError: day 30 must be in range 1..28 for month 2 in year 1990</status>
+<arg>1990-04-31</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.432406" elapsed="0.000945">No keyword with name 'Split String' found.</status>
 </kw>
-<msg time="2025-11-21T17:49:05.519415" level="FAIL">Expected error '*Invalid day*' but got 'Evaluating expression 'datetime.date(1990, 2, 30)' failed: ValueError: day 30 must be in range 1..28 for month 2 in year 1990'.</msg>
-<arg>*Invalid day*</arg>
-<arg>Calculate Age</arg>
-<arg>1990</arg>
-<arg>2</arg>
-<arg>30</arg>
-<arg>${TODAY}</arg>
+<msg time="2025-11-25T12:24:40.433440" level="FAIL">Expected error 'ValueError: Invalid day value' but got 'No keyword with name 'Split String' found.'.</msg>
+<arg>ValueError: Invalid day value</arg>
+<arg>Create Date</arg>
+<arg>1990-04-31</arg>
 <doc>Runs the keyword and checks that the expected error occurred.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.518186" elapsed="0.001259">Expected error '*Invalid day*' but got 'Evaluating expression 'datetime.date(1990, 2, 30)' failed: ValueError: day 30 must be in range 1..28 for month 2 in year 1990'.</status>
+<status status="FAIL" start="2025-11-25T12:24:40.432316" elapsed="0.001159">Expected error 'ValueError: Invalid day value' but got 'No keyword with name 'Split String' found.'.</status>
 </kw>
-<status status="FAIL" start="2025-11-21T17:49:05.518076" elapsed="0.001435">Expected error '*Invalid day*' but got 'Evaluating expression 'datetime.date(1990, 2, 30)' failed: ValueError: day 30 must be in range 1..28 for month 2 in year 1990'.</status>
+<doc>Day value outside valid range for month must raise an error.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.432187" elapsed="0.001338">Expected error 'ValueError: Invalid day value' but got 'No keyword with name 'Split String' found.'.</status>
 </test>
-<test id="s1-s1-t7" name="Very Old Birth Date" line="36">
-<kw name="Calculate Age">
+<test id="s1-s1-t8" name="Edge Case End Of Month To Start Of Next Month" line="52">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.434345" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.434334" elapsed="0.000025">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434409" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434450" elapsed="0.000006"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434484" elapsed="0.000006"/>
+</kw>
 <kw name="Run Keyword If" owner="BuiltIn">
 <arg>${month} &lt; 1 or ${month} &gt; 12</arg>
-<arg>Raise Invalid Month</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.519874" elapsed="0.000073"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434522" elapsed="0.000006"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434576" elapsed="0.000008"/>
 </kw>
 <kw name="Run Keyword If" owner="BuiltIn">
-<arg>${day} &lt; 1 or ${day} &gt; 31</arg>
-<arg>Raise Invalid Day</arg>
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
 <doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.519989" elapsed="0.000058"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434616" elapsed="0.000006"/>
 </kw>
 <kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.520193" level="INFO">${today} = 2023-08-15</msg>
-<var>${today}</var>
-<arg>datetime.datetime.strptime('${today_str}', '%Y-%m-%d').date()</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.520083" elapsed="0.000122"/>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.520343" level="INFO">${birth} = 1900-01-01</msg>
-<var>${birth}</var>
+<var>${date}</var>
 <arg>datetime.date(${year}, ${month}, ${day})</arg>
 <arg>datetime</arg>
 <doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2025-11-21T17:49:05.520242" elapsed="0.000111"/>
-</kw>
-<kw name="Run Keyword If" owner="BuiltIn">
-<msg time="2025-11-21T17:49:05.520471" level="FAIL">Evaluating expression '1900-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</msg>
-<arg>${birth} &gt; ${today}</arg>
-<arg>Raise Future Birth Date</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="FAIL" start="2025-11-21T17:49:05.520392" elapsed="0.000128">Evaluating expression '1900-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
-</kw>
-<kw name="Evaluate" owner="BuiltIn">
-<var>${rel}</var>
-<arg>__import__('dateutil.relativedelta').relativedelta(${today}, ${birth})</arg>
-<arg>datetime</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520563" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_years}</var>
-<arg>${rel}.years</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520604" elapsed="0.000007"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_months}</var>
-<arg>${rel}.months</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520640" elapsed="0.000006"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<var>${age_days}</var>
-<arg>${rel}.days</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520672" elapsed="0.000006"/>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434652" elapsed="0.000006"/>
 </kw>
 <return>
-<value>@{age_years}</value>
-<value>${age_months}</value>
-<value>${age_days}</value>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520693" elapsed="0.000007"/>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434674" elapsed="0.000005"/>
 </return>
-<var>${age}</var>
-<arg>1900</arg>
-<arg>1</arg>
-<arg>1</arg>
-<arg>${TODAY}</arg>
-<status status="FAIL" start="2025-11-21T17:49:05.519753" elapsed="0.001009">Evaluating expression '1900-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
+<var>${birth}</var>
+<arg>2024-04-30</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.433763" elapsed="0.000946">No keyword with name 'Split String' found.</status>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[0]</arg>
-<arg>123</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520829" elapsed="0.000012"/>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${today}</var>
+<arg>2024-05-01</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434743" elapsed="0.000006"/>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[1]</arg>
-<arg>7</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520878" elapsed="0.000007"/>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${expected}</var>
+<arg>{'years': 0, 'months': 0, 'days': 1}</arg>
+<arg>datetime, dateutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434781" elapsed="0.000005"/>
 </kw>
-<kw name="Should Be Equal As Numbers" owner="BuiltIn">
-<arg>${age}[2]</arg>
-<arg>14</arg>
-<doc>Fails if objects are unequal after converting them to real numbers.</doc>
-<status status="NOT RUN" start="2025-11-21T17:49:05.520915" elapsed="0.000007"/>
+<kw name="Calculate Age">
+<var>${result}</var>
+<arg>${birth}</arg>
+<arg>${today}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434837" elapsed="0.000008"/>
 </kw>
-<status status="FAIL" start="2025-11-21T17:49:05.519591" elapsed="0.001389">Evaluating expression '1900-01-01 &gt; 2023-08-15' failed: SyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers (&lt;string&gt;, line 1)</status>
+<kw name="Dictionaries Should Be Equal" owner="Collections">
+<arg>${result}</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given dictionaries are not equal.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.434878" elapsed="0.000006"/>
+</kw>
+<doc>Verify age when birth date is last day of month and today is first day of next month.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.433589" elapsed="0.001341">No keyword with name 'Split String' found.</status>
 </test>
-<status status="FAIL" start="2025-11-21T17:49:05.497688" elapsed="0.023498"/>
+<test id="s1-s1-t9" name="Edge Case Start Of Year" line="60">
+<kw name="Create Date">
+<kw name="Split String">
+<msg time="2025-11-25T12:24:40.436020" level="FAIL">No keyword with name 'Split String' found.</msg>
+<var>${parts}</var>
+<arg>${date_string}</arg>
+<arg>-</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.436009" elapsed="0.000025">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${year}</var>
+<arg>${parts[0]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436075" elapsed="0.000008"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${month}</var>
+<arg>${parts[1]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436114" elapsed="0.000006"/>
+</kw>
+<kw name="Convert To Integer" owner="BuiltIn">
+<var>${day}</var>
+<arg>${parts[2]}</arg>
+<doc>Converts the given item to an integer number.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436149" elapsed="0.000007"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${month} &lt; 1 or ${month} &gt; 12</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid month value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436189" elapsed="0.000005"/>
+</kw>
+<kw name="Get Max Day Of Month">
+<var>${max_day}</var>
+<arg>${year}</arg>
+<arg>${month}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436240" elapsed="0.000009"/>
+</kw>
+<kw name="Run Keyword If" owner="BuiltIn">
+<arg>${day} &lt; 1 or ${day} &gt; ${max_day}</arg>
+<arg>Raise Error</arg>
+<arg>ValueError: Invalid day value</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436284" elapsed="0.000006"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${date}</var>
+<arg>datetime.date(${year}, ${month}, ${day})</arg>
+<arg>datetime</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436322" elapsed="0.000006"/>
+</kw>
+<return>
+<value>${date}</value>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436343" elapsed="0.000006"/>
+</return>
+<var>${birth}</var>
+<arg>2024-01-01</arg>
+<status status="FAIL" start="2025-11-25T12:24:40.435426" elapsed="0.000954">No keyword with name 'Split String' found.</status>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<var>${today}</var>
+<arg>2024-12-31</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436416" elapsed="0.000007"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<var>${expected}</var>
+<arg>{'years': 0, 'months': 11, 'days': 30}</arg>
+<arg>datetime, dateutil</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436454" elapsed="0.000006"/>
+</kw>
+<kw name="Calculate Age">
+<var>${result}</var>
+<arg>${birth}</arg>
+<arg>${today}</arg>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436510" elapsed="0.000009"/>
+</kw>
+<kw name="Dictionaries Should Be Equal" owner="Collections">
+<arg>${result}</arg>
+<arg>${expected}</arg>
+<doc>Fails if the given dictionaries are not equal.</doc>
+<status status="NOT RUN" start="2025-11-25T12:24:40.436552" elapsed="0.000007"/>
+</kw>
+<doc>Verify age when birth date is Jan 1 and today is Dec 31 of same year.</doc>
+<status status="FAIL" start="2025-11-25T12:24:40.434992" elapsed="0.001611">No keyword with name 'Split String' found.</status>
+</test>
+<status status="FAIL" start="2025-11-25T12:24:40.415737" elapsed="0.021023"/>
 </suite>
-<status status="FAIL" start="2025-11-21T17:49:05.475702" elapsed="0.045698"/>
+<status status="FAIL" start="2025-11-25T12:24:40.395392" elapsed="0.041558"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="6" skip="0">All Tests</stat>
+<stat pass="0" fail="9" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Tests" id="s1" pass="1" fail="6" skip="0">Tests</stat>
-<stat name="Raw Output" id="s1-s1" pass="1" fail="6" skip="0">Tests.Raw Output</stat>
+<stat name="Tests" id="s1" pass="0" fail="9" skip="0">Tests</stat>
+<stat name="Raw Output" id="s1-s1" pass="0" fail="9" skip="0">Tests.Raw Output</stat>
 </suite>
 </statistics>
 <errors>
-<msg time="2025-11-21T17:49:05.469319" level="WARN">Error in file '/Users/nakshatra.g.int/Desktop/LlamaIndex/tests/raw_output.robot' on line 57: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2025-11-25T12:24:40.285730" level="WARN">Error in file '/Users/nakshatra.g.int/Desktop/LlamaIndex/tests/raw_output.robot' on line 79: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2025-11-25T12:24:40.285816" level="WARN">Error in file '/Users/nakshatra.g.int/Desktop/LlamaIndex/tests/raw_output.robot' on line 87: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+<msg time="2025-11-25T12:24:40.285882" level="WARN">Error in file '/Users/nakshatra.g.int/Desktop/LlamaIndex/tests/raw_output.robot' on line 97: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
 </errors>
 </robot>
