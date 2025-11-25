@@ -5,7 +5,6 @@ from pathlib import Path
 def save_tests(tests_dir: str, tests: dict):
     """
     Save generated Robot Framework files into a local /tests directory.
-    No repo. No nesting. Pure local write.
     """
     root = Path(tests_dir)
     root.mkdir(parents=True, exist_ok=True)
