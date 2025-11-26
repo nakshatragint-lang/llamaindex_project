@@ -9,6 +9,6 @@ def get_pg_store():
         database="llama_db",
         table_name="public_repo",
         schema_name="public",
-        embed_dim=1024,    # Embedding dimension for the model being used
+        embed_dim=1024,
         hybrid_search=False
     )

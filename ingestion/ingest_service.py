@@ -5,7 +5,7 @@ from llama_index.core import VectorStoreIndex, StorageContext, Settings
 from .clone import clone_repo
 from .extractor import extract_relevant_files
 from .chunker import chunk_repo_files
-from .embedder import get_embedder, count_embedding_tokens
+from .embedder import get_embedder
 from .vector_store import get_pg_store
 from transformers import AutoTokenizer
 from config import HF_EMBED_MODEL
@@ -20,35 +20,39 @@ def ingest_repo_service(repo_url: str):
     # chunking
     nodes = chunk_repo_files(workspace)
 
-    # embedding
+    # embedding with BATCHING
     embedder = get_embedder()
     Settings.embed_model = embedder
+    
+    # Batch embed nodes for MUCH faster processing
+    print(f"Embedding {len(nodes)} nodes in batches...")
+    BATCH_SIZE = 32  # Adjust based on your memory
+    
+    for i in range(0, len(nodes), BATCH_SIZE):
+        batch = nodes[i:i+BATCH_SIZE]
+        texts = [node.text for node in batch]
+        embeddings = embedder.get_text_embedding_batch(texts)
+        
+        for node, emb in zip(batch, embeddings):
+            node.embedding = emb
+        
+        if (i + BATCH_SIZE) % 320 == 0:  # Progress every 10 batches
+            print(f"Embedded {i + BATCH_SIZE}/{len(nodes)} nodes...")
 
-    # ----- TOKEN COUNTING -----
+    # Token counting (optional - can remove for speed)
     tokenizer = AutoTokenizer.from_pretrained(HF_EMBED_MODEL)
-    # Count tokens
-    total_tokens = 0
-    tokens_per_node = []
-
-    for node in nodes:
-        tc = len(tokenizer.encode(node.text, add_special_tokens=False))
-        tokens_per_node.append((node.node_id, tc))
-        total_tokens += tc
-    print("Total Tokens Used: ",total_tokens)
-    print("Tokens Per Node: ",len(tokens_per_node))
+    total_tokens = sum(len(tokenizer.encode(node.text, add_special_tokens=False)) for node in nodes)
+    print(f"Total Tokens: {total_tokens}, Nodes: {len(nodes)}")
 
     # vector store (pgvector)
     pg_store = get_pg_store()
-
-    # build index INSIDE the vector store
     storage_context = StorageContext.from_defaults(vector_store=pg_store)
 
-    index = VectorStoreIndex.from_documents(
-        nodes,
-        storage_context=storage_context
-    )
+    # Use nodes with pre-computed embeddings
+    index = VectorStoreIndex(nodes, storage_context=storage_context)
 
     return {
         "status": "success",
-        "chunks": len(nodes)
+        "chunks": len(nodes),
+        "total_tokens": total_tokens
     }
