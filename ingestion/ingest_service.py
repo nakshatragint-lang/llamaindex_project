@@ -6,7 +6,7 @@ from .clone import clone_repo
 from .extractor import extract_relevant_files
 from .chunker import chunk_repo_files
 from .embedder import get_embedder
-from .vector_store import get_pg_store
+from .vector_store import get_pg_store, get_qdrant_store
 from transformers import AutoTokenizer
 from config import HF_EMBED_MODEL
 
@@ -45,8 +45,13 @@ def ingest_repo_service(repo_url: str):
     print(f"Total Tokens: {total_tokens}, Nodes: {len(nodes)}")
 
     # vector store (pgvector)
-    pg_store = get_pg_store()
-    storage_context = StorageContext.from_defaults(vector_store=pg_store)
+    # pg_store = get_pg_store()
+    # storage_context = StorageContext.from_defaults(vector_store=pg_store)
+    
+    #Qdrant store
+    qdrant_store = get_qdrant_store()
+    storage_context = StorageContext.from_defaults(vector_store=qdrant_store)
+
 
     # Use nodes with pre-computed embeddings
     index = VectorStoreIndex(nodes, storage_context=storage_context)

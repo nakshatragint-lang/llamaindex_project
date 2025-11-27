@@ -1,80 +1,97 @@
 *** Settings ***
-Library    Collections
-Library    DateTime
+Library           Collections
+Library           DateTime
+Library           OperatingSystem
 
 *** Variables ***
-${FIXED_TODAY}    2023-03-15
+${FIXED_TODAY}    2025-05-20
 
 *** Test Cases ***
-Age Same Day As Today
-    [Documentation]    Birthdate equals today's date → age 0 years, 0 months, 0 days
-    ${age_year}    ${age_month}    ${age_day}=    Calculate Age    2023    3    15
-    Should Be Equal As Numbers    ${age_year}    0
-    Should Be Equal As Numbers    ${age_month}    0
-    Should Be Equal As Numbers    ${age_day}    0
+Normal Age Calculation
+    [Documentation]    Verify age calculation for a typical birth date.
+    ${birth}=    Create Date    1990-01-15
+    ${expected}=    Evaluate    {'years': 35, 'months': 4, 'days': 5}    datetime, dateutil
+    ${result}=    Calculate Age    ${birth}    ${FIXED_TODAY}
+    Dictionaries Should Be Equal    ${result}    ${expected}
 
-Age One Day Before Today
-    [Documentation]    Birthdate one day before today → age 0 years, 0 months, 1 day
-    ${age_year}    ${age_month}    ${age_day}=    Calculate Age    2023    3    14
-    Should Be Equal As Numbers    ${age_year}    0
-    Should Be Equal As Numbers    ${age_month}    0
-    Should Be Equal As Numbers    ${age_day}    1
+Leap Year Birth On Feb 29 (Non‑Leap Current Year)
+    [Documentation]    Verify age when born on Feb 29 and current year is not a leap year.
+    ${birth}=    Create Date    2000-02-29
+    ${expected}=    Evaluate    {'years': 25, 'months': 2, 'days': 19}    datetime, dateutil
+    ${result}=    Calculate Age    ${birth}    ${FIXED_TODAY}
+    Dictionaries Should Be Equal    ${result}    ${expected}
 
-Age One Month Before Today (Same Day)
-    [Documentation]    Birthdate one month before today (same day) → age 0 years, 1 month, 0 days
-    ${age_year}    ${age_month}    ${age_day}=    Calculate Age    2023    2    15
-    Should Be Equal As Numbers    ${age_year}    0
-    Should Be Equal As Numbers    ${age_month}    1
-    Should Be Equal As Numbers    ${age_day}    0
+Leap Year Birth On Feb 29 (Leap Current Year)
+    [Documentation]    Verify age when both birth year and current year are leap years.
+    ${birth}=    Create Date    2004-02-29
+    ${today}=    Set Variable    2024-02-29
+    ${expected}=    Evaluate    {'years': 20, 'months': 0, 'days': 0}    datetime, dateutil
+    ${result}=    Calculate Age    ${birth}    ${today}
+    Dictionaries Should Be Equal    ${result}    ${expected}
 
-Age One Year Before Today
-    [Documentation]    Birthdate exactly one year before today → age 1 year, 0 months, 0 days
-    ${age_year}    ${age_month}    ${age_day}=    Calculate Age    2022    3    15
-    Should Be Equal As Numbers    ${age_year}    1
-    Should Be Equal As Numbers    ${age_month}    0
-    Should Be Equal As Numbers    ${age_day}    0
+Birth Date Is Today
+    [Documentation]    Age should be zero when birth date equals today.
+    ${birth}=    Create Date    2025-05-20
+    ${expected}=    Evaluate    {'years': 0, 'months': 0, 'days': 0}    datetime, dateutil
+    ${result}=    Calculate Age    ${birth}    ${FIXED_TODAY}
+    Dictionaries Should Be Equal    ${result}    ${expected}
 
-Age Leap Day Birthdate Non‑Leap Current Year
-    [Documentation]    Birthdate Feb 29 on a leap year, current year is non‑leap (2023‑03‑15) → age 23 years, 0 months, 14 days
-    ${age_year}    ${age_month}    ${age_day}=    Calculate Age    2000    2    29
-    Should Be Equal As Numbers    ${age_year}    23
-    Should Be Equal As Numbers    ${age_month}    0
-    Should Be Equal As Numbers    ${age_day}    14
+Future Birth Date Should Fail
+    [Documentation]    Birth dates in the future must raise an error.
+    ${birth}=    Create Date    2026-01-01
+    Run Keyword And Expect Error    ValueError: Birth date cannot be in the future    Calculate Age    ${birth}    ${FIXED_TODAY}
 
-Future Birthdate Should Raise Error
-    [Documentation]    Birthdate after today must raise a ValueError
-    Run Keyword And Expect Error    ValueError    Calculate Age    2024    1    1
+Invalid Month Should Fail
+    [Documentation]    Month value outside 1‑12 must raise an error.
+    Run Keyword And Expect Error    ValueError: Invalid month value    Create Date    1990-13-01
 
-Invalid Month Should Raise Error
-    [Documentation]    Month value greater than 12 must raise a ValueError
-    Run Keyword And Expect Error    ValueError    Calculate Age    2020    13    10
+Invalid Day Should Fail
+    [Documentation]    Day value outside valid range for month must raise an error.
+    Run Keyword And Expect Error    ValueError: Invalid day value    Create Date    1990-04-31
 
-Invalid Day Should Raise Error
-    [Documentation]    Day value greater than 31 must raise a ValueError
-    Run Keyword And Expect Error    ValueError    Calculate Age    2020    12    32
+Edge Case End Of Month To Start Of Next Month
+    [Documentation]    Verify age when birth date is last day of month and today is first day of next month.
+    ${birth}=    Create Date    2024-04-30
+    ${today}=    Set Variable    2024-05-01
+    ${expected}=    Evaluate    {'years': 0, 'months': 0, 'days': 1}    datetime, dateutil
+    ${result}=    Calculate Age    ${birth}    ${today}
+    Dictionaries Should Be Equal    ${result}    ${expected}
 
-Negative Year Should Raise Error
-    [Documentation]    Negative year must raise a ValueError
-    Run Keyword And Expect Error    ValueError    Calculate Age    -1    5    10
-
-Very Old Birthdate
-    [Documentation]    Birthdate far in the past (1900‑01‑01) → verify large age calculation
-    ${age_year}    ${age_month}    ${age_day}=    Calculate Age    1900    1    1
-    Should Be Equal As Numbers    ${age_year}    123
-    Should Be Equal As Numbers    ${age_month}    2
-    Should Be Equal As Numbers    ${age_day}    14
+Edge Case Start Of Year
+    [Documentation]    Verify age when birth date is Jan 1 and today is Dec 31 of same year.
+    ${birth}=    Create Date    2024-01-01
+    ${today}=    Set Variable    2024-12-31
+    ${expected}=    Evaluate    {'years': 0, 'months': 11, 'days': 30}    datetime, dateutil
+    ${result}=    Calculate Age    ${birth}    ${today}
+    Dictionaries Should Be Equal    ${result}    ${expected}
 
 *** Keywords ***
+Create Date
+    [Arguments]    ${date_string}
+    ${parts}=    Split String    ${date_string}    -
+    ${year}=    Convert To Integer    ${parts[0]}
+    ${month}=    Convert To Integer    ${parts[1]}
+    ${day}=    Convert To Integer    ${parts[2]}
+    Run Keyword If    ${month} < 1 or ${month} > 12    Raise Error    ValueError: Invalid month value
+    ${max_day}=    Get Max Day Of Month    ${year}    ${month}
+    Run Keyword If    ${day} < 1 or ${day} > ${max_day}    Raise Error    ValueError: Invalid day value
+    ${date}=    Evaluate    datetime.date(${year}, ${month}, ${day})    datetime
+    [Return]    ${date}
+
+Get Max Day Of Month
+    [Arguments]    ${year}    ${month}
+    ${is_leap}=    Evaluate    calendar.isleap(${year})    calendar
+    ${days_in_month}=    Evaluate
+    ...    {1:31, 2:29 if ${is_leap} else 28, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}[${month}]
+    ...    datetime, calendar
+    [Return]    ${days_in_month}
+
 Calculate Age
-    [Arguments]    ${birth_year}    ${birth_month}    ${birth_day}
-    ${today}=    Convert To Date    ${FIXED_TODAY}
-    ${birth}=    Evaluate    __import__('datetime').date(int(${birth_year}), int(${birth_month}), int(${birth_day}))
-    ${today_date}=    Evaluate    __import__('datetime').date(int(${today.year}), int(${today.month}), int(${today.day}))
-    Run Keyword If    ${birth} > ${today_date}    Raise ValueError    Birthdate is in the future
-    ${years}=    Evaluate    ${today_date}.year - ${birth}.year - ((${today_date}.month, ${today_date}.day) < (${birth}.month, ${birth}.day))
-    ${months}=    Evaluate    (${today_date}.month - ${birth}.month - (${today_date}.day < ${birth}.day)) % 12
-    ${prev_month}=    Evaluate    (${today_date}.month - 1) if ${today_date}.day < ${birth}.day else ${today_date}.month
-    ${prev_year}=    Evaluate    ${today_date}.year if ${today_date}.month != 1 else ${today_date}.year - 1
-    ${days_in_prev_month}=    Evaluate    __import__('calendar').monthrange(${prev_year}, ${prev_month})[1]
-    ${days}=    Evaluate    ${today_date}.day - ${birth}.day if ${today_date}.day >= ${birth}.day else ${today_date}.day - ${birth}.day + ${days_in_prev_month}
-    [Return]    ${years}    ${months}    ${days}
+    [Arguments]    ${birth_date}    ${today_date}
+    Run Keyword If    ${birth_date} > ${today_date}    Raise Error    ValueError: Birth date cannot be in the future
+    ${delta}=    Evaluate    relativedelta(${today_date}, ${birth_date})    dateutil.relativedelta
+    ${years}=    Set Variable    ${delta.years}
+    ${months}=    Set Variable    ${delta.months}
+    ${days}=    Set Variable    ${delta.days}
+    ${result}=    Create Dictionary    years=${years}    months=${months}    days=${days}
+    [Return]    ${result}

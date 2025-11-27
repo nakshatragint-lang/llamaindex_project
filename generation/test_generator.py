@@ -1,5 +1,6 @@
 import json
 from .groq_client import call_groq
+from .call_llm import call_llm
 from config import prompt_rules as system_prompt
 
 def generate_tests(context: str, user_prompt: str) -> dict:
